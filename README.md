@@ -40,7 +40,7 @@ project/
 
 1️⃣ Clone the repository
 
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git clone https://github.com/Usama112222/Real_Estate-scraper
 cd YOUR_REPO
 
 2️⃣ Create a virtual environment
