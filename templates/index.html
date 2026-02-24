@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Property Scraper - Pakistan Real Estate</title>
+    
+    <!-- Bootstrap 5 & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background with Floating Shapes */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255,255,255,0.1) 0%, transparent 40%),
+                radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Floating Particles - Enhanced */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(odd) {
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        .particle:nth-child(3n) {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) translateX(0) rotate(0deg); 
+            }
+            25% { 
+                transform: translateY(-150px) translateX(150px) rotate(180deg); 
+            }
+            50% { 
+                transform: translateY(-250px) translateX(-150px) rotate(360deg); 
+            }
+            75% { 
+                transform: translateY(-150px) translateX(100px) rotate(540deg); 
+            }
+        }
+
+        /* Navbar Styles - Enhanced */
+        .navbar {
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding: 1.2rem 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
+
+        .navbar.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(255, 255, 255, 0.2) !important;
+            backdrop-filter: blur(20px);
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #f0f0f0, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, #fff, transparent);
+            border-radius: 2px;
+        }
+
+        /* Source Tabs - Enhanced */
+        .source-tabs {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            perspective: 1000px;
+        }
+
+        .source-tab {
+            padding: 1rem 2.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .source-tab::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.8s, height 0.8s;
+        }
+
+        .source-tab:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            border-color: rgba(255,255,255,0.8);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .source-tab:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .source-tab.active {
+            background: white;
+            color: #333;
+            border-color: white;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            transform: translateY(-8px) scale(1.05);
+            animation: tabPulse 2s infinite;
+        }
+
+        @keyframes tabPulse {
+            0%, 100% { box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+            50% { box-shadow: 0 20px 50px rgba(255,255,255,0.4); }
+        }
+
+        .source-tab i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .source-tab:hover i {
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        /* Control Card - Enhanced */
+        .control-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            animation: slideInDown 1s ease;
+            transition: all 0.3s ease;
+        }
+
+        .control-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 40px 70px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .form-label {
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-select, .form-control {
+            background: rgba(255,255,255,0.95);
+            border: 3px solid transparent;
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-select:focus, .form-control:focus {
+            border-color: #fff;
+            box-shadow: 0 0 30px rgba(255,255,255,0.5);
+            transform: scale(1.02);
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 20px;
+            padding: 1rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.4);
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            transform: scale(0.98);
+            filter: grayscale(50%);
+        }
+
+        /* Stats Alert - Enhanced */
+        .stats-alert {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(15px);
+            border: none;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: slideInLeft 0.8s ease;
+            font-weight: 600;
+            border-left: 8px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-alert::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        /* Property Card - Ultra Enhanced */
+        .property-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            animation: fadeInUp 0.8s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .property-card:hover {
+            transform: translateY(-20px) scale(1.03);
+            box-shadow: 0 40px 70px rgba(0,0,0,0.4);
+        }
+
+        .property-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 250px;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .property-card:hover .property-image {
+            transform: scale(1.15) rotate(2deg);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                transparent 40%,
+                rgba(0,0,0,0.5) 80%,
+                rgba(0,0,0,0.8) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .property-card:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .source-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            animation: badgePulse 2s infinite;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .badge-zameen {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .badge-property1 {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .badge-olx {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+
+        .city-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 0.6rem 1.5rem;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .property-details {
+            padding: 2rem;
+            flex-grow: 1;
+            background: white;
+            position: relative;
+        }
+
+        .property-details::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #ff6b6b);
+        }
+
+        .property-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            color: #333;
+            line-height: 1.5;
+            min-height: 4rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .property-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #28a745, #20c997, #28a745);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: priceGlow 2s infinite;
+        }
+
+        @keyframes priceGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .property-info {
+            background: #f8f9ff;
+            border-radius: 18px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(102,126,234,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .property-info:hover {
+            background: #f0f3ff;
+            border-color: rgba(102,126,234,0.5);
+            transform: scale(1.02);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding: 0.3rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: rgba(102,126,234,0.1);
+            padding-left: 0.8rem;
+        }
+
+        .info-icon {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 12px;
+            margin-right: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover .info-icon {
+            transform: rotate(360deg);
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+
+        .info-content {
+            flex-grow: 1;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-weight: 700;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        /* Bed/Bath Icons - Enhanced */
+        .bed-bath-container {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .bed-bath-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, #e8f0fe, #f0f7ff);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            border: 1px solid rgba(102,126,234,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .bed-bath-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102,126,234,0.3);
+            border-color: #667eea;
+        }
+
+        .bed-bath-item i {
+            color: #667eea;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .bed-bath-item:hover i {
+            transform: scale(1.2);
+        }
+
+        .property-link {
+            display: block;
+            text-align: center;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 18px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .property-link:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            color: white;
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+        }
+
+        .property-link:hover::before {
+            left: 100%;
+        }
+
+        /* Loading Spinner - Enhanced */
+        .loading-container {
+            text-align: center;
+            padding: 4rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 6px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            border-top-color: white;
+            border-right-color: rgba(255,255,255,0.6);
+            border-bottom-color: rgba(255,255,255,0.4);
+            animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(720deg); }
+        }
+
+        .loading-container p {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* No Results Animation */
+        .alert-warning {
+            background: rgba(255,255,255,0.95);
+            border: none;
+            border-radius: 30px;
+            animation: shake 0.5s ease;
+            padding: 3rem !important;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        /* Scrollbar Styling - Enhanced */
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+
+        /* Responsive Design - Enhanced */
+        @media (max-width: 768px) {
+            .source-tabs {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .source-tab {
+                width: 100%;
+                text-align: center;
+                padding: 0.8rem;
+            }
+            
+            .property-card {
+                margin-bottom: 1.5rem;
+            }
+            
+            .control-card {
+                padding: 1.5rem;
+            }
+            
+            .property-price {
+                font-size: 1.5rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .source-tabs, .control-card, .btn-primary, .property-link {
+                display: none;
+            }
+        }
+
+        /* Custom Animation Classes */
+        .hover-glow:hover {
+            filter: brightness(1.1);
+            transition: all 0.3s ease;
+        }
+
+        .rotate-in {
+            animation: rotateIn 1s ease;
+        }
+
+        @keyframes rotateIn {
+            from {
+                transform: rotate(-180deg) scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: rotate(0) scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navbar -->
+    <nav id="mainNavbar" class="navbar navbar-expand-lg">
+        <div class="container">
+            <span class="navbar-brand">
+                <i class="fas fa-building me-2"></i>Unified Property Scraper
+            </span>
+            <div class="ms-auto">
+                <span class="badge bg-light text-dark p-3 rounded-pill">
+                    <i class="fas fa-database me-2"></i>Pakistan Real Estate
+                    <i class="fas fa-chart-line ms-2 text-primary"></i>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+
+        <!-- Source Tabs -->
+        <div class="source-tabs">
+            <span id="tabZameen" class="source-tab active" onclick="switchSource('zameen')">
+                <i class="fas fa-home"></i> Zameen.com
+            </span>
+            <span id="tabProperty1" class="source-tab" onclick="switchSource('property1')">
+                <i class="fas fa-building"></i> Property1.pk
+            </span>
+            <span id="tabOlx" class="source-tab" onclick="switchSource('olx')">
+                <i class="fas fa-tag"></i> OLX.pk
+            </span>
+        </div>
+
+        <!-- Control Card -->
+        <div class="control-card">
+            <div class="row g-4 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label">
+                        <i class="fas fa-map-marker-alt me-2"></i>Select City
+                    </label>
+                    <select id="citySelect" class="form-select">
+                        <!-- Populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">
+                        <i class="fas fa-file-alt me-2"></i>Number of Pages
+                    </label>
+                    <input type="number" id="pagesInput" min="1" max="5" value="1" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <button id="scrapeBtn" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>Start Scraping
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" style="display:none;" class="loading-container">
+            <div class="spinner"></div>
+            <p class="text-white mt-3">Scraping properties... This may take a moment.</p>
+            <p class="text-white-50 small">We're collecting the best deals for you!</p>
+        </div>
+
+        <!-- Stats -->
+        <div id="stats" style="display:none;" class="stats-alert">
+            <i class="fas fa-chart-bar me-2 fa-2x align-middle"></i>
+            <span id="statsMessage" class="align-middle"></span>
+        </div>
+
+        <!-- Properties Grid -->
+        <div id="propertiesGrid" class="row g-4"></div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        /* DATA FROM FLASK */
+        const zameenCities = {{ zameen_cities|tojson }};
+        const property1Cities = {{ property1_cities|tojson }};
+        const olxCities = {{ olx_cities|tojson }};
+
+        let currentSource = "zameen";
+
+        /* Generate Particles */
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 15 + 5;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = Math.random() * 15 + 20 + 's';
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        /* Navbar Scroll Effect */
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        /* SWITCH SOURCE */
+        function switchSource(source) {
+            currentSource = source;
+            
+            $('.source-tab').removeClass('active');
+            $(`#tab${source.charAt(0).toUpperCase() + source.slice(1)}`).addClass('active');
+            
+            // Update navbar gradient based on source
+            const navbar = $('#mainNavbar');
+            
+            // Update colors dynamically
+            switch(source) {
+                case 'zameen':
+                    navbar.css('background', 'linear-gradient(135deg, #667eea, #764ba2)');
+                    break;
+                case 'property1':
+                    navbar.css('background', 'linear-gradient(135deg, #28a745, #20c997)');
+                    break;
+                case 'olx':
+                    navbar.css('background', 'linear-gradient(135deg, #ff6b6b, #ee5a24)');
+                    break;
+            }
+            
+            // Populate cities
+            if(source === "zameen") populateCities(zameenCities);
+            if(source === "property1") populateCities(property1Cities);
+            if(source === "olx") populateCities(olxCities);
+            
+            // Clear results with animation
+            $('#propertiesGrid').fadeOut(300, function() {
+                $(this).empty().fadeIn(300);
+            });
+            $('#stats').hide();
+        }
+
+        /* POPULATE CITIES */
+        function populateCities(cities) {
+            let select = $("#citySelect");
+            select.empty();
+            
+            // Add cities with animation
+            cities.forEach((city, index) => {
+                let option = $(`<option>${city}</option>`);
+                select.append(option);
+            });
+            
+            // Add animation class
+            select.addClass('animate__animated animate__fadeIn');
+            setTimeout(() => select.removeClass('animate__animated animate__fadeIn'), 1000);
+        }
+
+        /* INIT */
+        createParticles();
+        populateCities(zameenCities);
+
+        /* SCRAPE BUTTON */
+        $('#scrapeBtn').click(function() {
+            let city = $("#citySelect").val();
+            let pages = $("#pagesInput").val();
+
+            // Animate button
+            $(this).css('transform', 'scale(0.95)');
+            setTimeout(() => $(this).css('transform', 'scale(1)'), 200);
+
+            $('#loading').fadeIn(400);
+            $('#stats').hide();
+            $('#propertiesGrid').fadeOut(300).empty();
+            $(this).prop('disabled', true);
+
+            $.ajax({
+                url: '/scrape',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({source: currentSource, city: city, pages: pages}),
+                success: function(res) {
+                    $('#loading').fadeOut(300);
+                    $('#scrapeBtn').prop('disabled', false);
+                    
+                    $('#stats').fadeIn(400).removeClass().addClass('stats-alert animate__animated animate__fadeIn');
+                    $('#statsMessage').html(
+                        `<i class="fas fa-${getSourceIcon(res.source)} me-2 fa-lg"></i>
+                         <strong>${res.source}</strong> | 
+                         <i class="fas fa-map-marker-alt me-1"></i>${res.city} | 
+                         <i class="fas fa-list me-1"></i>${res.total} Properties Found
+                         ${res.total > 0 ? '<span class="badge bg-success ms-2"><i class="fas fa-check-circle"></i> Success</span>' : ''}`
+                    );
+
+                    displayProperties(res.properties);
+                },
+                error: function(xhr, status, error) {
+                    $('#loading').fadeOut(300);
+                    $('#scrapeBtn').prop('disabled', false);
+                    
+                    $('#stats').fadeIn(400).removeClass().addClass('stats-alert alert-danger animate__animated animate__shake');
+                    $('#statsMessage').html(
+                        '<i class="fas fa-exclamation-triangle text-danger me-2 fa-2x align-middle"></i>' +
+                        '<span class="align-middle">Error scraping properties. Please try again.</span>'
+                    );
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        /* Get Source Icon */
+        function getSourceIcon(source) {
+            switch(source) {
+                case 'Zameen.com': return 'home';
+                case 'Property1.pk': return 'building';
+                case 'OLX.pk': return 'tag';
+                default: return 'globe';
+            }
+        }
+
+        /* DISPLAY PROPERTIES */
+        function displayProperties(properties) {
+            let grid = $("#propertiesGrid");
+            grid.empty();
+
+            if (properties.length === 0) {
+                grid.html(`
+                    <div class="col-12">
+                        <div class="alert alert-warning text-center p-5 animate__animated animate__fadeIn">
+                            <i class="fas fa-search fa-4x mb-4 text-muted"></i>
+                            <h4 class="mb-3">No Properties Found</h4>
+                            <p class="mb-4">Try adjusting your search criteria or try another source/city.</p>
+                            <button class="btn btn-outline-primary" onclick="location.reload()">
+                                <i class="fas fa-sync-alt me-2"></i>Refresh
+                            </button>
+                        </div>
+                    </div>
+                `);
+                return;
+            }
+
+            properties.forEach((prop, index) => {
+                let badgeClass = "badge-zameen";
+                if (prop.source === "Property1.pk") badgeClass = "badge-property1";
+                if (prop.source === "OLX.pk") badgeClass = "badge-olx";
+
+                // Format price and area if needed
+                const price = prop.price !== 'N/A' ? prop.price : 'Price on Request';
+                const location = prop.location !== 'N/A' ? prop.location : 'Location Available on Request';
+                const area = prop.area !== 'N/A' ? prop.area : 'Area Not Specified';
+
+                // Create bed/bath HTML if available
+                const bedBathHtml = (prop.beds && prop.beds !== 'N/A' && prop.baths && prop.baths !== 'N/A') ? `
+                    <div class="bed-bath-container">
+                        <div class="bed-bath-item">
+                            <i class="fas fa-bed"></i> ${prop.beds}
+                        </div>
+                        <div class="bed-bath-item">
+                            <i class="fas fa-bath"></i> ${prop.baths}
+                        </div>
+                    </div>
+                ` : '';
+
+                let card = `
+                    <div class="col-lg-4 col-md-6" style="animation: fadeInUp 0.8s ease ${index * 0.1}s both;">
+                        <div class="property-card">
+                            <div class="property-image-container">
+                                ${prop.image 
+                                    ? `<img src="/image-proxy?url=${encodeURIComponent(prop.image)}" class="property-image" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Available'">`
+                                    : `<div style="height:250px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:white;flex-direction:column;">
+                                         <i class="fas fa-building fa-5x mb-3"></i>
+                                         <span>No Image Available</span>
+                                       </div>`
+                                }
+                                <div class="image-overlay"></div>
+                                <span class="source-badge ${badgeClass}">
+                                    <i class="fas fa-${getSourceIcon(prop.source)} me-2"></i>${prop.source}
+                                </span>
+                                <span class="city-badge">
+                                    <i class="fas fa-map-marker-alt me-2"></i>${prop.city}
+                                </span>
+                            </div>
+                            
+                            <div class="property-details">
+                                <div class="property-title" title="${prop.title}">${prop.title}</div>
+                                
+                                <div class="property-price">
+                                    <i class="fas fa-tag me-2"></i>${price}
+                                </div>
+                                
+                                ${bedBathHtml}
+                                
+                                <div class="property-info">
+                                    <div class="info-item">
+                                        <div class="info-icon"><i class="fas fa-map-pin"></i></div>
+                                        <div class="info-content">
+                                            <div class="info-label">Location</div>
+                                            <div class="info-value">${location}</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-icon"><i class="fas fa-arrows-alt"></i></div>
+                                        <div class="info-content">
+                                            <div class="info-label">Area</div>
+                                            <div class="info-value">${area}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                ${prop.url 
+                                    ? `<a href="${prop.url}" target="_blank" class="property-link" rel="noopener noreferrer">
+                                         <i class="fas fa-external-link-alt me-2"></i>View Property Details
+                                         <i class="fas fa-arrow-right ms-2"></i>
+                                       </a>`
+                                    : `<div class="property-link" style="background:#ccc;cursor:default;opacity:0.7;">
+                                         <i class="fas fa-ban me-2"></i>Link Not Available
+                                       </div>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                grid.append(card);
+            });
+
+            // Fade in the grid
+            grid.fadeIn(500);
+        }
+
+        // Add tooltips functionality
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+            
+            // Smooth hover effects
+            $('.property-card').on('mouseenter', function() {
+                $(this).find('.property-image').css('transform', 'scale(1.1)');
+            }).on('mouseleave', function() {
+                $(this).find('.property-image').css('transform', 'scale(1)');
+            });
+            
+            // Add floating animation to particles
+            setInterval(() => {
+                $('.particle').each(function() {
+                    const x = (Math.random() - 0.5) * 50;
+                    const y = (Math.random() - 0.5) * 50;
+                    $(this).css('transform', `translate(${x}px, ${y}px)`);
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
