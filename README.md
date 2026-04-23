@@ -1,4 +1,4 @@
-🏡 Real Estate Scraper Flask App
+# 🏡 Real Estate Scraper Flask App
 
 A Flask-based web application that scrapes real estate listings from multiple Pakistani property websites:
 
@@ -10,7 +10,7 @@ OLX.com.pk
 
 The app allows users to select a city and source, scrape property listings, and even fetch images using a proxy to bypass hotlinking restrictions.
 
-🚀 Features
+## 🚀 Features
 
 ✅ Multi-source property scraping (Zameen, Property1, OLX)
 
@@ -24,19 +24,8 @@ The app allows users to select a city and source, scrape property listings, and 
 
 ✅ Error handling for 404 and 500
 
-📂 Project Structure
-project/
-│── app.py
-│── zameen_scraper.py
-│── property1_scraper.py
-│── olx_scraper.py
-│── templates/
-│   └── index.html
-│── static/
-│── requirements.txt
-│── .gitignore
 
-⚙️ Installation
+## ⚙️ Installation
 
 1️⃣ Clone the repository
 
@@ -77,7 +66,7 @@ Open in your browser:
 
 http://127.0.0.1:5000
 
-⚠️ Disclaimer
+## ⚠️ Disclaimer
 
-This project is for educational purposes only.
-Web scraping should comply with each platform's Terms of Service.
+## This project is for educational purposes only.
+## Web scraping should comply with each platform's Terms of Service.
